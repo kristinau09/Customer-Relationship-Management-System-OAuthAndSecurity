@@ -10,6 +10,9 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
+        
+        <!-- If we want to mix XML and Java Config, then we need to add a reference of java config class to the XML if it is XML-centric -->
+        <bean class="com.example.crms.config"></bean>
 
 	
 	<import resource="/services.xml"/>
