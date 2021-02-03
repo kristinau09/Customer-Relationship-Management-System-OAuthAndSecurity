@@ -11,11 +11,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
         
-        <!-- If we want to mix XML and Java Config, then we need to add a reference of java config class to the XML if it is XML-centric -->
-        <bean class="com.example.crms.config"></bean>
+       
+        
+        <context:component-scan base-package="com.example.crms.config"></context:component-scan>
 
 	
-	<import resource="/services.xml"/>
+	
 	<import resource="/datasource-webapp.xml"/>
 	<import resource="/misc-beans.xml"/>	
 
