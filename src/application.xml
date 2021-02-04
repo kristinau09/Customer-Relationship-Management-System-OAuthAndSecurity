@@ -17,7 +17,7 @@
 
 	
 	
-	<import resource="/datasource-webapp.xml"/>
+	
 	<import resource="/misc-beans.xml"/>	
 
 </beans>

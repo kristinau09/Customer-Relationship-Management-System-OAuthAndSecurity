@@ -1,7 +1,12 @@
 package com.example.crms.config;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import com.example.crms.dao.ActionDao;
 import com.example.crms.dao.ActionDaoJpaImpl;
@@ -31,8 +36,7 @@ public class ApplicationConfig {
 	
 	
 	/*
-	 * <bean id="customerService" class=
-	 * "com.example.crms.services.customers.CustomerManagementServiceProductionImpl">
+	 * <bean id="customerService" class="com.example.crms.services.customers.CustomerManagementServiceProductionImpl">
 	 * <constructor-arg ref="customerDao"/> </bean>
 	 */
 	@Bean
@@ -41,8 +45,7 @@ public class ApplicationConfig {
 	}
 	
 	/*
-	 * <bean id="diaryService" class=
-	 * "com.example.crms.services.diaryManagement.DiaryManagementServiceProductionImpl">
+	 * <bean id="diaryService" class="com.example.crms.services.diaryManagement.DiaryManagementServiceProductionImpl">
 	 * <constructor-arg ref="actionDao"/> </bean>
 	 */
 	@Bean
@@ -51,14 +54,65 @@ public class ApplicationConfig {
 	}
 	
 	/*
-	 * <bean id="callService"
-	 * class="com.example.crms.services.callHandlings.CallHandlingServiceImpl">
-	 * <constructor-arg ref="customerService"/> <constructor-arg
-	 * ref="diaryService"/> </bean>
+	 * <bean id="callService" class="com.example.crms.services.callHandlings.CallHandlingServiceImpl">
+	 * <constructor-arg ref="customerService"/> 
+	 * <constructor-arg ref="diaryService"/> </bean>
 	 */
      @Bean
      public CallHandlingService callService(CustomerManagementService  customers, DiaryManagementService diary) {
     	 return new CallHandlingServiceImpl(customers, diary);
+     }
+     /*<!--  Data source - warning, the application name is hardcoded into the URL for database! -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+		<property name="url" value="jdbc:hsqldb:file:../webapps/crm/WEB-INF/database.dat;shutdown=true"/>
+		<property name="username" value="sa"/>
+		<property name="password" value=""/>
+	</bean>
+	*/
+     
+     @Bean
+     public DataSource dataSource() {
+    	 
+    	 BasicDataSource ds = new BasicDataSource();
+    	 ds.setDriverClassName("org.hsqldb.jdbcDriver");
+    	 ds.setUrl("jdbc:hsqldb:file:../webapps/crm/WEB-INF/database.dat;shutdown=true");
+    	 ds.setUsername("sa");
+    	 ds.setPassword("");
+    	 
+    	 return ds;
+     }     
+     
+	/*
+	<bean id="entityManagerFactory" 
+      class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+        <property name="jpaVendorAdapter">
+	       <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	         <property name="showSql" value="true"/>
+		     <property name="generateDdl" value="true"/>
+	       </bean>
+        </property>
+     	
+        <property name="dataSource" ref="dataSource"/>		
+    </bean>*/
+     
+     @Bean
+     //wrapper bean for an EntityManagerFactory and it is from the class LocalContainerEntityManagerFactoryBean
+     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    	 
+    	 LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+    	 emf.setDataSource(dataSource);
+    	 HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+    	 jpaVendorAdapter.setShowSql(true);
+    	 jpaVendorAdapter.setGenerateDdl(true);
+    	 
+    	 emf.setJpaVendorAdapter(jpaVendorAdapter);
+    	 
+    	 return emf;
+    	 
+    	 
+    	 
      }
 	
 
