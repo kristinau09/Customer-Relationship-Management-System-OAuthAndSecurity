@@ -1,14 +1,8 @@
 package com.example.crms.client;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.List;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.example.crms.domain.Action;
-import com.example.crms.domain.Call;
+import com.example.crms.config.ApplicationConfig;
 import com.example.crms.domain.Customer;
 import com.example.crms.services.callHandlings.CallHandlingService;
 import com.example.crms.services.customers.CustomerManagementService;
@@ -19,7 +13,7 @@ public class Client {
 
 	public static void main(String[] args) 
 	{
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+		AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
 		try
 		{
