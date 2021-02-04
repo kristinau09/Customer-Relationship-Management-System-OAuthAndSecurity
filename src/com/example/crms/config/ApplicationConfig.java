@@ -102,7 +102,9 @@ public class ApplicationConfig {
      public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
     	 
     	 LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+    	 
     	 emf.setDataSource(dataSource);
+    	 
     	 HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
     	 jpaVendorAdapter.setShowSql(true);
     	 jpaVendorAdapter.setGenerateDdl(true);
