@@ -1,12 +1,16 @@
 package com.example.crms.config;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.example.crms.dao.ActionDao;
 import com.example.crms.dao.ActionDaoJpaImpl;
@@ -20,6 +24,7 @@ import com.example.crms.services.diaryManagement.DiaryManagementService;
 import com.example.crms.services.diaryManagement.DiaryManagementServiceProductionImpl;
 
 @Configuration
+@EnableTransactionManagement
 public class ApplicationConfig {
 		
 	//<bean id="customerDao" class="com.example.crms.dao.CustomerDaoJpaImpl"></bean>
@@ -111,11 +116,43 @@ public class ApplicationConfig {
     	 
     	 emf.setJpaVendorAdapter(jpaVendorAdapter);
     	 
-    	 return emf;
+    	 return emf;   	 
+     }
+	 /*
+     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+	 </bean>
+	 */
+     @Bean
+     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
     	 
-    	 
+    	 JpaTransactionManager transaction = new JpaTransactionManager();    	 
+    	 transaction.setEntityManagerFactory(emf);
+    	 return transaction;
     	 
      }
-	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
