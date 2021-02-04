@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.crms.config.ApplicationConfig;
 import com.example.crms.domain.Action;
 import com.example.crms.domain.Call;
 import com.example.crms.domain.Customer;
@@ -21,7 +22,7 @@ import com.example.crms.services.customers.CustomerManagementService;
 import com.example.crms.services.customers.CustomerNotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "/daos.xml", "/services.xml", "/misc-beans.xml", "/datasource-test.xml" })
+@ContextConfiguration(classes = {ApplicationConfig.class})
 @Transactional
 public class CustomerManagementIntegrationTests 
 {
