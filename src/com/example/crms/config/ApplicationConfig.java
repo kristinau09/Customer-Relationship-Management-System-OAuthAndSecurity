@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -77,7 +78,8 @@ public class ApplicationConfig {
 	*/
      
      @Bean
-     public DataSource dataSource() {
+     @Profile("prod")
+     public DataSource dataSourceProduction() {
     	 
     	 BasicDataSource ds = new BasicDataSource();
     	 ds.setDriverClassName("org.hsqldb.jdbcDriver");
@@ -86,7 +88,30 @@ public class ApplicationConfig {
     	 ds.setPassword("");
     	 
     	 return ds;
-     }     
+     }  
+     /*
+     <!--  Data source for testing only-->
+ 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+ 		<property name="url" value="jdbc:hsqldb:file:databaseTESTING.dat;shutdown=true"/>
+ 		<property name="username" value="sa"/>
+ 		<property name="password" value=""/>
+ 	</bean>
+ 	*/
+     
+     @Bean
+     @Profile("test")
+     public DataSource dataSourceTesting() {
+    	 
+    	 BasicDataSource ds = new BasicDataSource();
+    	 ds.setDriverClassName("org.hsqldb.jdbcDriver");
+    	 ds.setUrl("jdbc:hsqldb:file:databaseTESTING.dat;shutdown=true");
+    	 ds.setUsername("sa");
+    	 ds.setPassword("");
+    	 
+    	 return ds;
+     }  
+
      
 	/*
 	<bean id="entityManagerFactory" 

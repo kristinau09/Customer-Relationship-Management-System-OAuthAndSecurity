@@ -1,6 +1,7 @@
 package com.example.crms.client;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.AbstractEnvironment;
 
 import com.example.crms.config.ApplicationConfig;
 import com.example.crms.domain.Customer;
@@ -11,8 +12,11 @@ import com.example.crms.services.diaryManagement.DiaryManagementService;
 
 public class Client {
 
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
+		
+		//Setting environment property for Spring to know which profile should run at run time
+		System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, "prod");
+		
 		AnnotationConfigApplicationContext container = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
 		try
