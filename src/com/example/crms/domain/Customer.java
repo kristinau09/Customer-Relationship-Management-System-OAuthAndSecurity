@@ -23,6 +23,11 @@ import org.springframework.hateoas.ResourceSupport;
 public class Customer extends ResourceSupport implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * A simple unique value for the customer - note this is determined
 	 * by the business and is not necessarily the database primary key.
 	 */
